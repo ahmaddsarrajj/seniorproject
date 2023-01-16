@@ -1,0 +1,214 @@
+<?php
+session_start();
+include "../../connection.php";
+
+$fname = "";
+$lname = "";
+$email = "";
+$name = "";
+$password = "";
+$conf_password = "";
+$role = "";
+$city = "";
+
+if( $_SERVER['REQUEST_METHOD'] == 'POST') {
+    $fname = $_POST["fname"];
+    $lname = $_POST["lname"];
+    $email = $_POST["email"];
+    $name = $_POST["name"];
+    $password = $_POST["password"];
+    $conf_password = $_POST["conf-password"];
+    $role= $_POST["role"];
+    $city= $_POST["city"];
+
+$errorMesg = "";
+$successMesg = "";
+
+do {
+    if (empty($fname) || empty($lname) || empty($email) || empty($name) || empty($password) || empty($role) || empty($city)) {
+        $errorMesg = "All fields are required!";
+        break;
+    }
+    if($password === $conf_password){
+        $query = "INSERT INTO user (FNAME, LNAME, USERNAME, EMAIL, ROLE_ID, CITY_ID, PASSWORD) VALUES ('$fname', '$lname', '$name', '$email', '$role', '$city', '$password')";
+        $result   = mysqli_query($conn, $query);  
+    }else{
+            $errorMesg = "check your password";
+    }
+
+    $name = "";
+    $password = "";
+    $conf_password = "";
+    $role = "";
+    $city = "";
+    $successMesg = "user Added Correctly";
+} while (false);
+}
+
+$role_query = 'SELECT * FROM role';
+$get_role = mysqli_query($conn, $role_query);
+
+$city_query = 'SELECT * FROM city';
+$get_city = mysqli_query($conn, $city_query);
+
+
+
+if (isset($_SESSION['SSN']) && isset($_SESSION['USERNAME']) && $_SESSION['ROLE_ID'] == 1 )  {
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css"> 
+        <script src="....//node_modules/bootstrap/dist/js/bootstrap.min.js"></script>      
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <title>Home</title>
+    </head>
+    <style>
+        a{
+            text-decoration: none;
+            color: rgb(216, 216, 216);
+            font-weight: 600;
+        }
+        a:hover{
+            color: white;
+        }
+        label{
+            color: #a0a0a0
+        }
+    </style>
+<body>
+    <!-- header -->
+    <header>
+        <div class="py-2 px-5 bg-dark d-flex justify-content-end">
+        <a href="../auth/logout.php" class="px-5">logout</a>  
+        </div>
+    </header>
+
+    <div class="container my-5">
+        <h2 class="pb-5">
+            Create New User
+        </h2>
+
+        <?php 
+            if (!empty($errorMesg)) {
+                echo "
+                <div class='alert alert-warning alert-dismissible fade show' role='alert'>
+                    <strong>$errorMesg</strong>
+                    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                    </div>
+                ";
+            }
+        ?>
+
+        <form method="post">
+        <div class="row mb-3">
+                <label>First Name</label>
+                <div >
+                    <input type="text" class="form-control" name="fname" value="<?php echo $fname;?>">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label>Last Name</label>
+                <div >
+                    <input type="text" class="form-control" name="lname" value="<?php echo $lname;?>">
+                </div>
+            </div>
+        
+        <div class="row mb-3">
+                <label>User Name</label>
+                <div >
+                    <input type="text" class="form-control" name="name" value="<?php echo $name;?>">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label>Eamil</label>
+                <div >
+                    <input type="text" class="form-control" name="email" value="<?php echo $email;?>">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label>Password</label>
+                <div >
+                    <input type="password" class="form-control" name="password" value="<?php echo $password;?>">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label>Confirm Password</label>
+                <div >
+                    <input type="password" class="form-control" name="conf-password" value="<?php echo $conf_password;?>">
+                </div>
+            </div>
+            <div class="row mb-3">
+            <label>Role</label>
+                <div >
+                    <select name="role" class="custom-select  form-control" id="inputGroupSelect01">
+                        <option selected>Role...</option>
+                        <?php 
+                        while ($row = mysqli_fetch_assoc($get_role)) {
+                            echo "
+                            <option value='".$row['ROLE_ID']."'>"
+                                .$row['NAME'].
+                            "</option>";
+                        }
+                        ?>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-3">
+            <label>City</label>
+                <div >
+                    <select name="city" class="custom-select  form-control" id="inputGroupSelect01">
+                        <option selected>City...</option>
+                        <?php 
+                        while ($row = mysqli_fetch_assoc($get_city)) {
+                            echo "
+                            <option value='".$row['CITY_ID']."'>"
+                                .$row['NAME'].
+                            "</option>";
+                        }
+                        ?>
+                    </select>
+                </div>
+            </div>
+            <?php
+             if (!empty($successMesg)) {
+                echo "
+                <div class='alert alert-success alert-dismissible fade show' role='alert'>
+                    <strong>$successMesg</strong>
+                    <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                    </div>
+                ";
+            }   
+            ?>
+            <div class="row my-5 d-flex justify-content-end">
+            <div class="offset-sm-3 col-sm-2 d-grid">
+                   <a href="../../screen/dashboard/user.php" role="button" class="btn btn-secondary">
+                    Cancel
+                </a>
+                </div>
+                <div class=" col-sm-2 d-grid">
+                   <button type="submit" class="btn btn-success">
+                    Add
+                </button>
+                </div>
+
+                
+            </div>
+
+        </form>
+    </div>
+
+</body>
+</html>
+
+<?php
+}else{
+    header("Location: ../../index.php");
+                   exit();
+ }
+?>

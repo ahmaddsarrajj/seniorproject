@@ -1,0 +1,88 @@
+header a {
+    text-decoration: none;
+    color: rgb(216, 216, 216);
+    font-weight: 600;
+}
+
+header a:hover {
+    color: white;
+}
+
+.dropbtn {
+    color: black;
+    background-color: transparent;
+    font-size: 16px;
+    border: none;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+.btn{
+    background-color: green;
+    border: none;
+    
+}
+.btn:hover{
+    background-color: green;
+}
+
+.main{
+    width: 100%;
+    margin: 100px 60px 0 300px;
+}
+.numbers{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.num{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding:  50px 10px;
+    margin: 0 10px;
+    color: white;
+    border: 1px solid rgb(219, 219, 219);
+    border-radius: 20px;
+    filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25));
+    background-color: rgba(0, 128, 0, 0.788);
+}
+
+.special{
+    border-radius: 10px;
+    padding: 10px;
+    color: green;
+    font-weight: 600;
+    border: 1px solid rgb(219, 219, 219);
+}
+
+.num p{
+font-size: 40px;
+font-weight: 600;
+}
