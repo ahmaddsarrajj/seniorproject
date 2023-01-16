@@ -4,40 +4,7 @@ include "../../connection.php";
 
 $name = "";
 $symbol = "";
-
-if( $_SERVER['REQUEST_METHOD'] == 'POST') {
-    $name = $_POST["name"];
-    $page = $_POST["page"];
-    $symbol = $_POST["symbol"];
-    
-
-$errorMesg = "";
-$successMesg = "";
-
-do {
-    if (empty($name) || empty($symbol) || empty($type_id)) {
-        $errorMesg = "All fields are required!";
-        break;
-    }
-
-    $query = "INSERT INTO Coins (NAME, PAGECOUNT, symbol, AUTHOR_ID, TYPE_ID) VALUES ('$name', '$page', '$symbol', '$type_id')";
-    $result   = mysqli_query($conn, $query);  
-
-    $name = "";
-    $page = "";
-    $symbol = "";
-    $type_id = "";
-    $successMesg = "Coins Added Correctly";
-
-    header("location: ../../screen/dashboard/coins.php");
-    exit;
-} while (false);
-}
-
-
-$get_type = "SELECT * FROM TYPE";
-$get_all_types   = mysqli_query($conn, $get_type);
-
+$amount = "";
 ?>
 
 <!DOCTYPE html>
@@ -62,7 +29,7 @@ $get_all_types   = mysqli_query($conn, $get_type);
             color: #a0a0a0
         }
         .submit{
-            background-color: #834503;
+            background-color: green;
         }
     </style>
 <body>
@@ -88,7 +55,7 @@ $get_all_types   = mysqli_query($conn, $get_type);
                 ";
             }
         ?>
-        <form method="post">
+        <form method="post"  action="../uploadFiles.php" enctype="multipart/form-data">
             <div class="row mb-3">
                 <label>Name</label>
                 <div >
@@ -97,34 +64,20 @@ $get_all_types   = mysqli_query($conn, $get_type);
             </div>
 
             <div class="row mb-3">
-                <label >Pages Number</label>
+                <label >Amount</label>
                 <div >
-                    <input type="number" class="form-control" name="page" value="<?php echo "$page";?>">
+                    <input type="number" class="form-control" name="amount" value="<?php echo "$amount";?>">
                 </div>
             </div>
 
             <div class="row mb-3">
-            <label>Select Coins :</label>
+            <label>Symbol</label>
             <div >
-                    <input type="file" class="form-control" name="symbol" value="<?php echo "$symbol";?>">
+            <input type="text" class="form-control" name="symbol" value="<?php echo "$symbol";?>">
                 </div>
             </div>
+            
 
-            <div class="row mb-3">
-                <div >
-                    <select name="type" class="custom-select  form-control" id="inputGroupSelect01">
-                        <option selected>Type...</option>
-                        <?php 
-                        while ($type = mysqli_fetch_assoc($get_all_types)) {
-                            echo "
-                            <option value='".$type['TYPE_ID']."'>"
-                                .$type['NAME'].
-                            "</option>";
-                        }
-                        ?>
-                    </select>
-                </div>
-            </div>
             <?php
              if (!empty($successMesg)) {
                 echo "

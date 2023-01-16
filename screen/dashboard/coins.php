@@ -83,7 +83,7 @@ if (isset($_SESSION['SSN']) && isset($_SESSION['USERNAME']) == 1) {
                 
                 <div class="mb-5 d-flex flex-row justify-content-between">
                     <h2>Coins</h2>
-                    <a href="../../actions/book/createCoins.php" class="btn text-white p-3" role="button">New Coins</a>
+                    <a href="../../actions/coins/createCoins.php" class="btn text-white p-3" role="button">New Coins</a>
                 </div>
                 
                 <div>
