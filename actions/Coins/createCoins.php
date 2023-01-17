@@ -66,7 +66,7 @@ $amount = "";
             <div class="row mb-3">
                 <label >Amount</label>
                 <div >
-                    <input type="number" class="form-control" name="amount" value="<?php echo "$amount";?>">
+                    <input type="text" class="form-control" name="amount" value="<?php echo "$amount";?>">
                 </div>
             </div>
 
